@@ -113,6 +113,13 @@
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Envio.h" />
+    <ClInclude Include="Headers.h" />
+    <ClInclude Include="ListaEnvios.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Nodo.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
