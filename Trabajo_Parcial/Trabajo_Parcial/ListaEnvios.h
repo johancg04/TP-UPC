@@ -11,17 +11,69 @@ public:
 	}
 	~ListaEnvios(){}
 
-	void insertar(Envio* e) {
+	void insertarInicio(Envio* e) {
 		Nodo* nuevo = new Nodo(e);
 		nuevo->setSiguiente(cabeza);
 		cabeza = nuevo;
 	}
 
-	void mostrar() {
-		Nodo* aux = cabeza;
-		while (aux) {
-			aux->getEnvio()->mostrar();
-			aux = aux->getSiguiente();
-		}
-	}
+    void mostrarLista() {
+        if (cabeza == nullptr) {
+            cout << endl << "LISTA DE ENVIOS VACIA\n" << endl;
+            return;
+        }
+
+        Nodo* temp = cabeza;
+        cout << endl << "=== LISTA DE ENVIOS ===" << endl;
+
+        while (temp != nullptr) {
+            Envio* e = temp->getEnvio();
+            cout << "Envio " << e->getId() << "\tTipo: {" << e->getTipo() << "} \n";
+            cout << "Origen: " << e->getOrigen() << "\tDestino: " << e->getDestino() << "\n";
+            cout << "Estado: " << e->getEstado() << "\tCosto: " << e->getCosto() << "\n";
+            if (temp->getSiguiente() != nullptr) {
+                cout << "-----------------------------------\n";
+            }
+            temp = temp->getSiguiente();
+        }
+        cout << endl;
+    }
+
+    Envio* buscarEnvioPorId(int id) {
+        Nodo* temp = cabeza;
+        while (temp != nullptr) {
+            Envio* e = temp->getEnvio();
+            if (e!= nullptr && e->getId() == id) {
+                return temp->getEnvio();
+            }
+            else {
+                temp = temp->getSiguiente();
+            }
+         }
+        return nullptr;
+    }
+
+    void eliminarPorId(int id) {
+        Nodo* actual = cabeza;
+        Nodo* anterior = nullptr;
+
+        while (actual != nullptr) {
+            Envio* e = actual->getEnvio();
+            if (e->getId() == id) {
+                if (anterior == nullptr) { //si elimino el primer nodo
+                    cabeza = actual->getSiguiente();
+                }
+                else {
+                    anterior->setSiguiente(actual->getSiguiente());
+                }
+                delete e;
+                delete actual;
+                cout << "Envio con ID " << id << " eliminado.\n";
+                return;
+            }
+            anterior = actual;
+            actual = actual->getSiguiente();
+        }
+        cout << "Envio con ID " << id << " no encontrado.\n";
+    }
 };
