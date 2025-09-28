@@ -1,22 +1,19 @@
 #include "ListaEnvios.h"
 #include "Menu.h"
 #include "Envio.h"
+#include "Paquete.h"
+#include "Sobre.h"
 
 int main() {
 	ListaEnvios lista;
 	short opcion;
 
-    //SOLO PARA PRUEBAS
-    Envio* e1 = new Envio(1, "Paquete", 4.0, "30x20x10", "Lima", "Cusco", "Pendiente");
-    Envio* e2 = new Envio(2, "Sobre", 0.5, "A4", "Arequipa", "Lima", "Entregado");
-    Envio* e3 = new Envio(3, "Paquete", 2.5, "25x15x10", "Piura", "Trujillo", "En transito");
-    Envio* e4 = new Envio(4, "Sobre", 0.2, "Carta", "Chiclayo", "Tacna", "Pendiente");
-    Envio* e5 = new Envio(5, "Caja", 3.0, "40x30x20", "Puno", "Ica", "Pendiente");
-    lista.insertarInicio(e1);
-    lista.insertarInicio(e2);
-    lista.insertarInicio(e3);
-    lista.insertarInicio(e4);
-    lista.insertarInicio(e5);
+    //Caso de prueba paquete
+    Paquete* p1 = new Paquete(1, 4.0, "20x5x100", "Lima", "Cusco", "Pendiente","Ropa", 200.0, true);
+    lista.insertarInicio(p1);
+    //Caso de prueba sobre
+    Envio* s1 = new Sobre(1,0.5,"A4","Arequipa","Lima","Pendiente",25,true,true);
+    lista.insertarInicio(s1);
 
 	while (1) {
 		//system("cls");
@@ -25,38 +22,51 @@ int main() {
 		cin >> opcion;
 
         if (opcion == 1) {
-            /*Envio* nuevo = new Envio();
-
             int idEnvio;
             string tipo, dimensiones, origen, destino, estado;
             double peso;
 
             cout << "ID Envio: "; cin >> idEnvio;
-            nuevo->setId(idEnvio);
-
-            cout << "Tipo de envio(Paquete/Sobre): "; cin >> tipo;
-            nuevo->setTipo(tipo);
-
+            cout << "Tipo de envio (Paquete/Sobre): "; cin >> tipo;
             cout << "Peso: "; cin >> peso;
-            nuevo->setPeso(peso);
-
             cout << "Dimensiones: "; cin >> dimensiones;
-            nuevo->setDimensiones(dimensiones);
-
             cout << "Origen: "; cin >> origen;
-            nuevo->setOrigen(origen);
-
             cout << "Destino: "; cin >> destino;
-            nuevo->setDestino(destino);
-
             cout << "Estado: "; cin >> estado;
-            nuevo->setEstado(estado);
 
-            nuevo->calcularCosto();
+            if (tipo == "Paquete") {
+                string contenido;
+                double valorDeclarado;
+                bool asegurado;
 
-            lista.insertarInicio(nuevo);
-            nuevo->registrarEnvio();
-            cout << "Costo calculado: " << nuevo->getCosto() << " soles\n";*/
+                cout << "Contenido: "; cin >> contenido;
+                cout << "Valor declarado: "; cin >> valorDeclarado;
+                cout << "Asegurado? (1=Si, 0=No): "; cin >> asegurado;
+
+                Envio* nuevo = new Paquete(idEnvio, peso, dimensiones, origen, destino, estado,
+                    contenido, valorDeclarado, asegurado);
+
+                lista.insertarInicio(nuevo);
+                cout << "Paquete registrado con costo: " << nuevo->getCosto() << " soles\n";
+            }
+            else if (tipo == "Sobre") {
+                int numeroHojas;
+                bool urgente;
+                bool clienteFrecuente;
+
+                cout << "Número de hojas: "; cin >> numeroHojas;
+                cout << "Es urgente? (1=Si, 0=No): "; cin >> urgente;
+                cout << "Cliente frecuente? (1=Si, 0=No): "; cin >> clienteFrecuente;
+
+                Envio* nuevo = new Sobre(idEnvio, peso, dimensiones, origen, destino, estado,
+                    numeroHojas, urgente, clienteFrecuente);
+
+                lista.insertarInicio(nuevo);
+                cout << "Sobre registrado con costo: " << nuevo->getCosto() << " soles\n";
+            }
+            else {
+                cout << "Tipo de envio no válido.\n";
+            }
         }
 
         if (opcion == 2) {

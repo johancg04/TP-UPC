@@ -28,9 +28,9 @@ public:
 
         while (temp != nullptr) {
             Envio* e = temp->getEnvio();
-            cout << "Envio " << e->getId() << "\tTipo: {" << e->getTipo() << "} \n";
-            cout << "Origen: " << e->getOrigen() << "\tDestino: " << e->getDestino() << "\n";
-            cout << "Estado: " << e->getEstado() << "\tCosto: " << e->getCosto() << "\n";
+            if (e != nullptr) {
+                e->mostrar();
+            }
             if (temp->getSiguiente() != nullptr) {
                 cout << "-----------------------------------\n";
             }

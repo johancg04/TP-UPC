@@ -18,5 +18,6 @@ public:
     void setEnvio(Envio* e) { envio = e; }
 
     Nodo* getSiguiente() { return siguiente; }
+
     void setSiguiente(Nodo* nodo) { siguiente = nodo; }
 };
