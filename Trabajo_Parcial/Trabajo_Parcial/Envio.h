@@ -52,10 +52,4 @@ public:
 
 	void setEstado(string nuevoEstado) { estado = nuevoEstado; }
 	void setCosto(double nuevoCosto) { costo = nuevoCosto; }
-	//void setId(int id) { idEnvio = id; }
-	//void setTipo(string t) { tipo = t; }
-	//void setPeso(double p) { peso = p; }
-	//void setDimensiones(string d) { dimensiones = d; }
-	//void setOrigen(string o) { origen = o; }
-	//void setDestino(string d) { destino = d; }
 };

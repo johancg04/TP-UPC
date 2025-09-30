@@ -3,20 +3,69 @@
 #include "Envio.h"
 #include "Paquete.h"
 #include "Sobre.h"
+#include "Tracking.h"
+#include "ColaEnvios.h"
+#include "Usuario.h"
+#include <map>
 
 int main() {
+    Usuario usuarioActual;
+    short opcionAcceso;
+
+    mostrarMenuAcceso();
+    cin >> opcionAcceso;
+
+    if (opcionAcceso == 1) {
+        usuarioActual.registrarUsuario();
+        cout << "Ahora debe iniciar sesion.\n";
+        return 0;
+    }
+    else if (opcionAcceso == 2) {
+        string correo, pass;
+        cout << "Correo: "; cin >> correo;
+        cout << "Password: "; cin >> pass;
+
+        if (!usuarioActual.iniciarSesion(correo, pass)) {
+            cout << "Correo o password incorrectos.\n";
+            Sleep(1000);
+            return 0;
+        }
+        else {
+            cout << "Sesion iniciada correctamente.\n";
+            Sleep(1500);
+        }
+    }
+    else {
+        cout << "Saliendo del programa...\n";
+        Sleep(1500);
+        return 0;
+    }
+
 	ListaEnvios lista;
+    ColaEnvios cola;
+    map<int, Tracking*> trackings;
 	short opcion;
 
     //Caso de prueba paquete
-    Paquete* p1 = new Paquete(1, 4.0, "20x5x100", "Lima", "Cusco", "Pendiente","Ropa", 200.0, true);
+    Envio* p1 = new Paquete(1, 4.0, "20x5x100", "Lima", "Cusco", "Pendiente","Ropa", 200.0, true);
     lista.insertarInicio(p1);
+    trackings[p1->getId()] = new Tracking(p1->getId());
     //Caso de prueba sobre
-    Envio* s1 = new Sobre(1,0.5,"A4","Arequipa","Lima","Pendiente",25,true,true);
+    Envio* s1 = new Sobre(2,0.5,"A4","Arequipa","Lima","Pendiente",25,true,true);
     lista.insertarInicio(s1);
+    trackings[p1->getId()] = new Tracking(p1->getId());
+
+    cola.encolar(p1);
+    cola.encolar(s1);
+
+    cola.mostrarCola();
+
+    cola.desencolar();
+
+    cola.mostrarCola();
 
 	while (1) {
-		//system("cls");
+		system("cls");
 		mostrarMenu();
 		cout << "Ingrese operacion: \n";
 		cin >> opcion;
@@ -47,6 +96,8 @@ int main() {
                     contenido, valorDeclarado, asegurado);
 
                 lista.insertarInicio(nuevo);
+                cola.encolar(nuevo);
+                trackings[idEnvio] = new Tracking(idEnvio);
                 cout << "Paquete registrado con costo: " << nuevo->getCosto() << " soles\n";
             }
             else if (tipo == "Sobre") {
@@ -62,11 +113,14 @@ int main() {
                     numeroHojas, urgente, clienteFrecuente);
 
                 lista.insertarInicio(nuevo);
+                cola.encolar(nuevo);
+                trackings[idEnvio] = new Tracking(idEnvio);
                 cout << "Sobre registrado con costo: " << nuevo->getCosto() << " soles\n";
             }
             else {
                 cout << "Tipo de envio no válido.\n";
             }
+            system("pause>0");
         }
 
         if (opcion == 2) {
@@ -84,13 +138,17 @@ int main() {
             else {
                 cout << "No se encontro el envio\n";
             }
+            system("pause>0");
         }
+
         if (opcion == 3) {
             int idEliminar;
             cout << "Ingrese el ID a eliminar: ";
             cin >> idEliminar;
             lista.eliminarPorId(idEliminar);
+            system("pause>0");
         }
+
         if (opcion == 4) {
             int idActualizar;
             string nuevoEstado;
@@ -110,10 +168,64 @@ int main() {
             else {
                 cout << "Envio con ID " << idActualizar << " no encontrado.\n";
             }
+            system("pause>0");
         }
+
 		if (opcion == 5) {
-			lista.mostrarLista();
+            int id;
+            cout << "Ingrese ID del envio: "; cin >> id;
+
+            if (trackings.find(id) != trackings.end()) {
+                trackings[id]->mostrarHistorial();
+            }
+            else {
+                cout << "No existe tracking para este envio.\n";
+            }
+            system("pause>0");
 		}
+
+        if (opcion == 6){
+            int id;
+            string ubicacion;
+            cout << "Ingrese ID del envio: "; cin >> id;
+            cout << "Ingrese nueva ubicacion: "; cin.ignore(); getline(cin, ubicacion);
+
+            if (trackings.find(id) != trackings.end()) {
+                trackings[id]->pushUbicacion(ubicacion);
+            }
+            else {
+                cout << "No existe tracking para el envio con ID " << id << endl;
+            }
+            system("pause>0");
+        }
+
+        if (opcion == 7) {
+            int id;
+            cout << "Ingrese ID del envio: "; cin >> id;
+
+            if (trackings.find(id) != trackings.end()) {
+                cout << "Ultima ubicacion: " << trackings[id]->verUltimaUbicacion() << endl;
+            }
+            else {
+                cout << "No existe tracking para este envio.\n";
+            }
+            system("pause>0");
+        }
+
+        if (opcion == 8) {
+            cola.mostrarCola();
+            system("pause>0");
+        }
+
+        if (opcion == 9) {
+            cola.desencolar();
+            system("pause>0");
+        }
+
+        if (opcion == 10) {
+            lista.mostrarLista();
+            system("pause>0");
+        }
 	}
 
     system("pause>0");

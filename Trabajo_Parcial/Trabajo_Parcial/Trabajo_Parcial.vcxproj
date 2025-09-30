@@ -114,6 +114,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColaEnvios.h" />
     <ClInclude Include="Envio.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="ListaEnvios.h" />
@@ -121,6 +122,8 @@
     <ClInclude Include="Nodo.h" />
     <ClInclude Include="Paquete.h" />
     <ClInclude Include="Sobre.h" />
+    <ClInclude Include="Tracking.h" />
+    <ClInclude Include="Usuario.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
