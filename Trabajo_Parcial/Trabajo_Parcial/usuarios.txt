@@ -1,0 +1,14 @@
+DNI:12345678
+Nombre:Johan Contreras
+Correo:johan@mail.com
+Direccion:Av.Lima 123
+Telefono:987654321
+Password:1234
+-----------------------
+DNI:87654321
+Nombre:Maria
+Correo:maria@mail.com
+Direccion:Jr. Cusco 456
+Telefono:912345678
+Password:abcd
+-----------------------

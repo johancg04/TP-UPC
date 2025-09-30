@@ -6,40 +6,45 @@
 #include "Tracking.h"
 #include "ColaEnvios.h"
 #include "Usuario.h"
+#include "Pago.h"
 #include <map>
 
 int main() {
     Usuario usuarioActual;
     short opcionAcceso;
+    bool estaAutenticado = false;
 
-    mostrarMenuAcceso();
-    cin >> opcionAcceso;
+    while (!estaAutenticado) {
+        mostrarMenuAcceso();
+        cin >> opcionAcceso;
 
-    if (opcionAcceso == 1) {
-        usuarioActual.registrarUsuario();
-        cout << "Ahora debe iniciar sesion.\n";
-        return 0;
-    }
-    else if (opcionAcceso == 2) {
-        string correo, pass;
-        cout << "Correo: "; cin >> correo;
-        cout << "Password: "; cin >> pass;
+        if (opcionAcceso == 1) {
+            usuarioActual.registrarUsuario();
+            cout << "Ahora debe iniciar sesion.\n";
+            Sleep(1500);
+            system("cls");
+        }
+        else if (opcionAcceso == 2) {
+            string correo, pass;
+            cout << "Correo: "; cin >> correo;
+            cout << "Password: "; cin >> pass;
 
-        if (!usuarioActual.iniciarSesion(correo, pass)) {
-            cout << "Correo o password incorrectos.\n";
-            Sleep(1000);
-            return 0;
+            if (!usuarioActual.iniciarSesion(correo, pass)) {
+                cout << "Correo o password incorrectos.\n";
+            }
+            else {
+                cout << "Sesion iniciada correctamente.\n";
+                estaAutenticado = true;
+            }
+            Sleep(1500);
+            system("cls");
         }
         else {
-            cout << "Sesion iniciada correctamente.\n";
+            cout << "Saliendo del programa...\n";
             Sleep(1500);
+            return 0;
         }
-    }
-    else {
-        cout << "Saliendo del programa...\n";
-        Sleep(1500);
-        return 0;
-    }
+    }   
 
 	ListaEnvios lista;
     ColaEnvios cola;
@@ -223,6 +228,36 @@ int main() {
         }
 
         if (opcion == 10) {
+            int idBuscar;
+            cout << "Ingrese ID del envio a pagar: ";
+            cin >> idBuscar;
+
+            Envio* envioBuscado = lista.buscarEnvioPorId(idBuscar);
+
+            if (envioBuscado != nullptr) {
+                string dni, metodo;
+                cout << "Ingrese DNI del usuario: ";
+                cin >> dni;
+                cout << "Monto a pagar: S/." << envioBuscado->getCosto() << "\n";
+                cout << "Metodo de pago (Tarjeta/Yape/Plin/Efectivo): ";
+                cin >> metodo;
+
+                Pago<double> pago(dni, metodo, envioBuscado);
+                pago.registrarPago();
+            }
+            else {
+                cout << "No se encontro el envio con ID " << idBuscar << "\n";
+            }
+            system("pause>0");
+        }
+
+        if (opcion == 11) {
+            Pago<double> gestor;
+            gestor.mostrarPagos();
+            system("pause>0");
+        }
+
+        if (opcion == 12) {
             lista.mostrarLista();
             system("pause>0");
         }

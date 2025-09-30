@@ -20,5 +20,7 @@ void mostrarMenu() {
 	cout << "7. Ver ultima ubicacion\n";
 	cout << "8. Mostrar cola de pendientes\n";
 	cout << "9. Procesar siguiente envio\n";
-	cout << "10. Mostrar Lista\n";
+	cout << "10. Registrar pago\n";
+	cout << "11. Mostrar Pagos\n";
+	cout << "12. Mostrar Lista\n";
 }

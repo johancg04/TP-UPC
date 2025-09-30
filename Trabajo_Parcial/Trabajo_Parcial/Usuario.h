@@ -58,7 +58,7 @@ public:
         archivo << "Direccion:" << direccion << endl;
         archivo << "Telefono:" << telefono << endl;
         archivo << "Password:" << password << endl;
-        archivo << "----" << endl;
+        archivo << "-----------------------" << endl;
 
         archivo.close();
         cout << "Usuario registrado exitosamente.\n";

@@ -120,6 +120,7 @@
     <ClInclude Include="ListaEnvios.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Nodo.h" />
+    <ClInclude Include="Pago.h" />
     <ClInclude Include="Paquete.h" />
     <ClInclude Include="Sobre.h" />
     <ClInclude Include="Tracking.h" />
