@@ -9,16 +9,21 @@ private:
 	double valorDeclarado;
 	bool asegurado;
 public:
-	Paquete(int id, double p, string dim, string ori, string des, string est, string conte, double valor, bool aseg) :Envio(id, "Paquete", p, dim, ori, des, est) {
+	Paquete(int id, double p, string dim, string ori, string des, string est, string conte, double valor, bool aseg, string dni) :Envio(id, "Paquete", p, dim, ori, des, est, dni) {
 		this->contenido = conte;
 		this->volumen = 1;
 		this->valorDeclarado = valor;
 		this->asegurado = aseg;
-		calcularCosto();
 		calcularVolumen();
+		calcularCosto();
 	}
 
 	~Paquete() {}
+
+	string getContenido() { return contenido; }
+	double getValorDeclarado() { return valorDeclarado; }
+	bool getAsegurado() { return asegurado; }
+
 
 	void calcularCosto() override {
 		costo = (peso * 5.0) + (valorDeclarado * 0.01);
@@ -50,6 +55,5 @@ public:
 			}
 		}
 	}
-
 
 };

@@ -12,11 +12,12 @@ protected:
 	string destino = "";
 	double costo = 0.0;
 	string estado = "";
+	string dniCliente = "";
 
 public:
 	Envio() {}
 
-    Envio(int id, string t, double p, string dim, string o, string d, string e) {
+    Envio(int id, string t, double p, string dim, string o, string d, string e, string dni) {
 		this->idEnvio = id;
 		this->tipo = t;
 		this->peso = p;
@@ -24,6 +25,7 @@ public:
 		this->origen = o;
 		this->destino = d;
 		this->estado = e;
+		this->dniCliente = dni;
 	}
 
 	~Envio(){}
@@ -49,7 +51,9 @@ public:
 	string getDestino() { return destino; }
 	double getCosto() { return costo; }
 	string getEstado() { return estado; }
+	string getDniCliente() const { return dniCliente; }
 
 	void setEstado(string nuevoEstado) { estado = nuevoEstado; }
 	void setCosto(double nuevoCosto) { costo = nuevoCosto; }
+	void setDniCliente(string dni) { dniCliente = dni; }
 };

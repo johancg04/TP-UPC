@@ -1,8 +1,7 @@
 #pragma once
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <string>
+#include "Headers.h"
+
 using namespace std;
 
 class Usuario {
@@ -13,22 +12,28 @@ private:
     string direccion;
     string telefono;
     string password;
+    string rol;
 
 public:
     Usuario() {}
 
-    Usuario(string d, string n, string c, string dir, string t, string p) {
-        dni = d;
-        nombre = n;
-        correo = c;
-        direccion = dir;
-        telefono = t;
-        password = p;
+    Usuario(string d, string n, string c, string dir, string t, string p, string r) {
+        this->dni = d;
+        this->nombre = n;
+        this->correo = c;
+        this->direccion = dir;
+        this->telefono = t;
+        this->password = p;
+        this->rol = r;
     }
 
     string getCorreo() { return correo; }
 
     string getNombre() { return nombre; }
+
+    string getRol() { return rol; }
+
+    string getDni() { return dni; }
 
     void registrarUsuario() {
         cout << "=== REGISTRO DE USUARIO ===\n";
@@ -38,6 +43,7 @@ public:
         cout << "Direccion: "; getline(cin, direccion);
         cout << "Telefono: "; getline(cin, telefono);
         cout << "Password: "; getline(cin, password);
+        cout << "Rol (Cliente/Administrador): "; getline(cin, rol);
 
         for (char c : telefono) {
             if (!isdigit(c)) {
@@ -58,6 +64,7 @@ public:
         archivo << "Direccion:" << direccion << endl;
         archivo << "Telefono:" << telefono << endl;
         archivo << "Password:" << password << endl;
+        archivo << "Rol:" << rol << endl;
         archivo << "-----------------------" << endl;
 
         archivo.close();
@@ -72,20 +79,30 @@ public:
         }
 
         string linea;
-        string correoArchivo, passArchivo;
+        string correoArchivo, passArchivo, rolArchivo, dniArchivo;
         while (getline(archivo, linea)) {
-            if (linea.rfind("Correo:", 0) == 0) {
+            if (linea.rfind("DNI:", 0) == 0) {
+                dniArchivo = linea.substr(4);
+            }
+            else if (linea.rfind("Correo:", 0) == 0) {
                 correoArchivo = linea.substr(7);
             }
             else if (linea.rfind("Password:", 0) == 0) {
                 passArchivo = linea.substr(9);
+            }
+            else if (linea.rfind("Rol:", 0) == 0) {
+                rolArchivo = linea.substr(4);
+
                 if (correoArchivo == correoIngresado && passArchivo == passwordIngresado) {
+                    this->correo = correoArchivo;
+                    this->password = passArchivo;
+                    this->rol = rolArchivo;
+                    this->dni = dniArchivo;
                     archivo.close();
                     return true;
                 }
             }
         }
-
         archivo.close();
         return false;
     }

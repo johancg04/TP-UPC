@@ -1,6 +1,5 @@
 #pragma once
 #include "Headers.h"
-#include <stack>
 
 class Tracking
 {

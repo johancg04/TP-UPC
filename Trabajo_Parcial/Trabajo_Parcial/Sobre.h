@@ -8,13 +8,17 @@ private:
 	bool urgencia;
 	bool clienteFrecuente;
 public:
-	Sobre(int id, double p, string dim, string ori, string des, string est, int hojas, bool urg, bool frec):Envio(id, "Sobre",p,dim,ori,des,est) {
+	Sobre(int id, double p, string dim, string ori, string des, string est, int hojas, bool urg, bool frec, string dni):Envio(id, "Sobre",p,dim,ori,des,est, dni) {
 		this->numeroHojas = hojas;
 		this->urgencia = urg;
 		this->clienteFrecuente = frec;
 		calcularCosto();
 	}
 	~Sobre(){}
+
+	int getNumeroHojas() { return numeroHojas; }
+	bool getUrgente() { return urgencia; }
+	bool getClienteFrecuente() { return clienteFrecuente; }
 
 	void calcularCosto() override {
 		costo = peso * 2.0;

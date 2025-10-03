@@ -1,7 +1,6 @@
 #pragma once
 #pragma once
 #include "Envio.h"
-#include <queue>
 
 class ColaEnvios {
 private:
