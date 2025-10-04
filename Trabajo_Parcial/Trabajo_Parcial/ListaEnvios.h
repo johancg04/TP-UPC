@@ -23,82 +23,83 @@ public:
         guardarEnArchivo(e);
 	}
 
-    void mostrarLista() {
-        if (cabeza == nullptr) {
-            cout << endl << "LISTA DE ENVIOS VACIA\n" << endl;
+    void mostrarListaRecursivo(Nodo* temp) {
+        if (temp == nullptr) {
             return;
         }
-
-        Nodo* temp = cabeza;
-        cout << endl << "=== LISTA DE ENVIOS ===" << endl;
-
-        while (temp != nullptr) {
-            Envio* e = temp->getEnvio();
-            if (e != nullptr) {
-                e->mostrar();
-            }
-            if (temp->getSiguiente() != nullptr) {
-                cout << "-----------------------------------\n";
-            }
-            temp = temp->getSiguiente();
+        Envio* e = temp->getEnvio();
+        if (e != nullptr) {
+            e->mostrar();
         }
-        cout << endl;
+        if (temp->getSiguiente() != nullptr) {
+            cout << "-----------------------------------\n";
+        }
+        mostrarListaRecursivo(temp->getSiguiente());
+    }
+
+    void mostrarLista() {
+        cout << endl << "=== LISTA DE ENVIOS (Recursivo) ===" << endl;
+        mostrarListaRecursivo(cabeza);
+    }
+
+    Envio* buscarEnvioPorIdRecursivo(Nodo* nodo, int id) {
+        if (nodo == nullptr) {
+            return nullptr;
+        }
+        if (nodo->getEnvio()->getId() == id) {
+            return nodo->getEnvio();
+        }
+        return buscarEnvioPorIdRecursivo(nodo->getSiguiente(), id);
     }
 
     Envio* buscarEnvioPorId(int id) {
-        Nodo* temp = cabeza;
-        while (temp != nullptr) {
-            Envio* e = temp->getEnvio();
-            if (e!= nullptr && e->getId() == id) {
-                return temp->getEnvio();
-            }
-            else {
-                temp = temp->getSiguiente();
-            }
-         }
-        return nullptr;
+        return buscarEnvioPorIdRecursivo(cabeza, id);
+    }
+
+    Nodo* eliminarPorIdRecursivoInterno(Nodo* nodo, int id, bool& eliminado) {
+        if (nodo == nullptr) return nullptr;
+
+        if (nodo->getEnvio()->getId() == id) {
+            Nodo* siguiente = nodo->getSiguiente();
+            delete nodo->getEnvio();
+            delete nodo;
+            eliminado = true;
+            return siguiente;
+        }
+
+        nodo->setSiguiente(eliminarPorIdRecursivoInterno(nodo->getSiguiente(), id, eliminado));
+        return nodo;
     }
 
     void eliminarPorId(int id) {
-        Nodo* actual = cabeza;
-        Nodo* anterior = nullptr;
+        bool eliminado = false;
+        cabeza = eliminarPorIdRecursivoInterno(cabeza, id, eliminado);
 
-        while (actual != nullptr) {
-            Envio* e = actual->getEnvio();
-            if (e->getId() == id) {
-                if (anterior == nullptr) {
-                    cabeza = actual->getSiguiente();
-                }
-                else {
-                    anterior->setSiguiente(actual->getSiguiente());
-                }
-                delete e;
-                delete actual;
-                cout << "Envio con ID " << id << " eliminado.\n";
-                // Reescribir archivo sin ese envío
-                reescribirArchivo();
-                return;
-            }
-            anterior = actual;
-            actual = actual->getSiguiente();
+        if (eliminado) {
+            cout << "Envio con ID " << id << " eliminado.\n";
+            reescribirArchivo();
         }
-        cout << "Envio con ID " << id << " no encontrado.\n";
+        else {
+            cout << "Envio con ID " << id << " no encontrado.\n";
+        }
     }
+
+
 
     void mostrarPorDni(const string& dni) {
         Nodo* temp = cabeza;
-        bool found = false;
+        bool encontrado = false;
         cout << "\n=== ENVIOS DEL DNI: " << dni << " ===\n";
         while (temp) {
             Envio* e = temp->getEnvio();
             if (e && e->getDniCliente() == dni) {
                 e->mostrar();
                 cout << "-----------------------------------\n";
-                found = true;
+                encontrado = true;
             }
             temp = temp->getSiguiente();
         }
-        if (!found) cout << "No se encontraron envíos para el DNI " << dni << "\n";
+        if (!encontrado) cout << "No se encontraron envíos para el DNI " << dni << "\n";
     }
 
     void guardarEnArchivo(Envio* e) {
@@ -214,7 +215,7 @@ public:
             nuevo->setSiguiente(cabeza);
             cabeza = nuevo;
         }
-        // POR PROBAR
+
         void reescribirArchivo() {
             ofstream archivo("envios.txt", ios::trunc);
             if (!archivo.is_open()) {
