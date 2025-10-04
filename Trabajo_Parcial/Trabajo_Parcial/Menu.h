@@ -33,6 +33,7 @@ void mostrarMenuAdmin() {
 	cout << "8. Procesar siguiente envio\n";
 	cout << "9. Mostrar todos los pagos\n";
 	cout << "10. Envios ordenados por costo\n";
-	cout << "11. Mostrar lista completa de envios\n";
+	cout << "11. Filtrar envios por Origen o Destino\n";
+	cout << "12. Mostrar lista completa de envios\n";
 	cout << "0. Cerrar sesion\n";
 }

@@ -329,6 +329,16 @@ int main() {
             }
             case 11:
             {
+                string filtro;
+                cout << "Ingrese una ciudad (origen o destino) para filtrar los envios: ";
+                cin.ignore();
+                getline(cin, filtro);
+                lista.filtrarEnviosPorCriterio(filtro);
+                system("pause>0");
+                break;
+            }
+            case 12:
+            {
                 lista.mostrarLista();
                 system("pause>0");
                 break;

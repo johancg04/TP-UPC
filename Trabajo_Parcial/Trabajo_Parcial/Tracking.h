@@ -42,9 +42,14 @@ public:
 		cout << "Historial de ubicaciones del envio " << idEnvio << ":\n";
 
 		stack<string> copia = ubicaciones;
-		while (!copia.empty()) {
-			cout << "- " << copia.top() << endl;
-			copia.pop();
-		}
+
+		auto imprimirPila = [](stack<string> s) {
+			while (!s.empty()) {
+				cout << "- " << s.top() << endl;
+				s.pop();
+			}
+			};
+
+		imprimirPila(copia);
 	}
 };

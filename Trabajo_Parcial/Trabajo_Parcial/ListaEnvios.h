@@ -209,6 +209,30 @@ public:
         archivo.close();
     }
 
+    void filtrarEnviosPorCriterio(const string& valorFiltro) {
+        cout << "\n=== FILTRO DE ENVIOS POR CRITERIO ===\n";
+
+        auto cumpleCriterio = [valorFiltro](Envio* e) {
+            return (e->getOrigen() == valorFiltro || e->getDestino() == valorFiltro);
+            };
+
+        Nodo* temp = cabeza;
+        bool encontrado = false;
+
+        while (temp) {
+            Envio* e = temp->getEnvio();
+            if (e && cumpleCriterio(e)) {
+                e->mostrar();
+                cout << "-----------------------------------\n";
+                encontrado = true;
+            }
+            temp = temp->getSiguiente();
+        }
+
+        if (!encontrado)
+            cout << "No se encontraron envios que coincidan con el criterio: " << valorFiltro << "\n";
+    }
+
     private:
         void insertarInicioSinArchivo(Envio* e) {
             Nodo* nuevo = new Nodo(e);
