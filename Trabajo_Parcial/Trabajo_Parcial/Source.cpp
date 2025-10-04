@@ -322,6 +322,13 @@ int main() {
             }
             case 10:
             {
+				Pago<double> gestor;
+                gestor.mostrarPagosOrdenadosPorCosto();
+				system("pause>0");
+				break;
+            }
+            case 11:
+            {
                 lista.mostrarLista();
                 system("pause>0");
                 break;

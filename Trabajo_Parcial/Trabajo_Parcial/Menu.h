@@ -10,7 +10,7 @@ void mostrarMenuAcceso() {
 }
 
 void mostrarMenuCliente() {
-	cout << "\n=== MENU CLIENTE ===\n";
+	cout << "=== MENU CLIENTE ===\n";
 	cout << "1. Registrar envio\n";
 	cout << "2. Buscar envio por ID\n";
 	cout << "3. Ver historial Tracking\n";
@@ -32,6 +32,7 @@ void mostrarMenuAdmin() {
 	cout << "7. Mostrar cola de pendientes\n";
 	cout << "8. Procesar siguiente envio\n";
 	cout << "9. Mostrar todos los pagos\n";
-	cout << "10. Mostrar lista completa de envios\n";
+	cout << "10. Envios ordenados por costo\n";
+	cout << "11. Mostrar lista completa de envios\n";
 	cout << "0. Cerrar sesion\n";
 }

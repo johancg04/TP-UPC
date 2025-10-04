@@ -57,7 +57,9 @@ public:
     }
 
     Nodo* eliminarPorIdRecursivoInterno(Nodo* nodo, int id, bool& eliminado) {
-        if (nodo == nullptr) return nullptr;
+        if (nodo == nullptr) {
+            return nullptr;
+        }
 
         if (nodo->getEnvio()->getId() == id) {
             Nodo* siguiente = nodo->getSiguiente();
@@ -83,8 +85,6 @@ public:
             cout << "Envio con ID " << id << " no encontrado.\n";
         }
     }
-
-
 
     void mostrarPorDni(const string& dni) {
         Nodo* temp = cabeza;

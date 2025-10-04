@@ -34,3 +34,15 @@ Hojas:14
 Urgente:1
 Frecuente:1
 -------------------
+ID:104
+Tipo:Sobre
+Peso:50
+Dimensiones:10x12x13
+Origen:Lima
+Destino:Cusco
+Estado:Pendiente
+DNI:45632178
+Hojas:50
+Urgente:1
+Frecuente:1
+-------------------
