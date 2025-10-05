@@ -59,9 +59,13 @@ int main() {
         }
 
         ListaEnvios<Envio> lista;
-        lista.cargarDesdeArchivo();
         ColaEnvios<Envio> cola;
         map<int, Tracking<string>*> trackings;
+        
+        lista.cargarDesdeArchivo();
+        lista.llenarColaPendientes(cola);
+        lista.crearTrackingsIniciales(trackings);
+
         short opcion = -1;
 
         if (usuarioActual.getRol() == "Cliente") {
@@ -103,7 +107,7 @@ int main() {
                         bool urgente;
                         bool clienteFrecuente;
 
-                        cout << "Número de hojas: "; cin >> numeroHojas;
+                        cout << "Numero de hojas: "; cin >> numeroHojas;
                         cout << "Es urgente? (1=Si, 0=No): "; cin >> urgente;
                         cout << "Cliente frecuente? (1=Si, 0=No): "; cin >> clienteFrecuente;
 
@@ -113,8 +117,10 @@ int main() {
                     if (nuevo != nullptr) {
                         lista.insertarInicio(nuevo);
                         cola.encolar(nuevo);
-                        trackings[idEnvio] = new Tracking<string>(idEnvio);
+                        if (trackings.count(idEnvio) == 0) {
+                            trackings[idEnvio] = new Tracking<string>(idEnvio);
 
+                        }
                         cout << "Envio registrado con costo: " << nuevo->getCosto() << " soles\n";
                     }
                     else {
@@ -147,7 +153,7 @@ int main() {
                     int id;
                     cout << "Ingrese ID del envio: "; cin >> id;
 
-                    if (trackings.find(id) != trackings.end()) {
+                    if (trackings.count(id)) {
                         trackings[id]->mostrarHistorial();
                     }
                     else {
@@ -161,7 +167,7 @@ int main() {
                     int id;
                     cout << "Ingrese ID del envio: "; cin >> id;
 
-                    if (trackings.find(id) != trackings.end()) {
+                    if (trackings.count(id)) {
                         cout << "Ultima ubicacion: " << trackings[id]->verUltimaUbicacion() << endl;
                     }
                     else {
@@ -278,7 +284,7 @@ int main() {
                     cout << "Ingrese ID del envio: "; cin >> id;
                     cout << "Ingrese nueva ubicacion: "; cin.ignore(); getline(cin, ubicacion);
 
-                    if (trackings.find(id) == trackings.end()) {
+                    if (trackings.count(id) == 0) {
                         trackings[id] = new Tracking<string>(id);
                         cout << "Se ha creado un nuevo tracking para el envio " << id << ".\n";
                     }
@@ -325,7 +331,14 @@ int main() {
                 }
                 case 8:
                 {
-                    cola.desencolar();
+                    Envio* procesado = cola.desencolar();
+                    if (procesado != nullptr) {
+                        int id = procesado->getId();
+                        if (trackings.count(id) == 0)
+                            trackings[id] = new Tracking<string>(id);
+                        trackings[id]->pushUbicacion("Procesado: En transito");
+                        cout << "Tracking actualizado.\n";
+                    }
                     system("pause>0");
                     break;
                 }
@@ -365,7 +378,10 @@ int main() {
             Sleep(1000);
             system("cls");
         }
+        for (auto& p : trackings) delete p.second;
+        trackings.clear();
     }
+
     cout << "Hasta pronto...\n";
     Sleep(1000);
     return 0;

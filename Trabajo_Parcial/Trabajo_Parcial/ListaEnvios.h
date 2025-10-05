@@ -3,6 +3,8 @@
 #include "Headers.h"
 #include "Paquete.h"
 #include "Sobre.h"
+#include "ColaEnvios.h"
+#include "Tracking.h"
 
 template <typename T>
 class ListaEnvios
@@ -237,6 +239,28 @@ public:
 
         if (!encontrado)
             cout << "No se encontraron envios que coincidan con el criterio: " << valorFiltro << "\n";
+    }
+
+    void llenarColaPendientes(ColaEnvios<Envio>& cola) {
+        Nodo<T>* temp = cabeza;
+        while (temp) {
+            Envio* e = temp->getEnvio();
+            if (e && e->getEstado() == "Pendiente") {
+                cola.encolar(e);
+            }
+            temp = temp->getSiguiente();
+        }
+    }
+
+    void crearTrackingsIniciales(map<int, Tracking<string>*>& trackings) {
+        Nodo<T>* temp = cabeza;
+        while (temp) {
+            Envio* e = temp->getEnvio();
+            if (e && trackings.count(e->getId()) == 0) {
+                trackings[e->getId()] = new Tracking<string>(e->getId());
+            }
+            temp = temp->getSiguiente();
+        }
     }
 
     private:

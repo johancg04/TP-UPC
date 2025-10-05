@@ -16,9 +16,9 @@ public:
 
     ~Nodo() {}
 
-    T* getEnvio() { return envio; }
+    T* getEnvio() const { return envio; }
     void setEnvio(T* e) { envio = e; }
 
-    Nodo<T>* getSiguiente() { return siguiente; }
+    Nodo<T>* getSiguiente() const { return siguiente; }
     void setSiguiente(Nodo<T>* nodo) { siguiente = nodo; }
 };

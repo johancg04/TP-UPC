@@ -11,17 +11,18 @@ public:
         cout << "Envio " << e->getId() << " agregado a la cola de pendientes.\n";
     }
 
-    void desencolar() {
+    T* desencolar() {
         if (pendientes.empty()) {
             cout << "No hay envios pendientes.\n";
-            return;
+            return nullptr;
         }
 
         T* e = pendientes.front();
         pendientes.pop();
-
+        e->actualizarEstado("En transito");
         cout << "Procesando envio " << e->getId() << " hacia " << e->getDestino() << endl;
-        e->actualizarEstado("En tránsito");
+        e->actualizarEstado("En transito");
+        return e;
     }
 
     void mostrarCola() {
