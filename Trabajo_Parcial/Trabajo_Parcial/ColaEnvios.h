@@ -1,41 +1,52 @@
 #pragma once
-#pragma once
 #include "Envio.h"
 
+template <typename T>
 class ColaEnvios {
 private:
-    queue<Envio*> pendientes;
+    queue<T*> pendientes;
 public:
-    void encolar(Envio* e) {
+    void encolar(T* e) {
         pendientes.push(e);
         cout << "Envio " << e->getId() << " agregado a la cola de pendientes.\n";
     }
 
     void desencolar() {
-        if (!pendientes.empty()) {
-            Envio* e = pendientes.front();
-            pendientes.pop();
-            cout << "Procesando envio " << e->getId() << " hacia " << e->getDestino() << endl;
-            e->actualizarEstado("En transito");
-        }
-        else {
+        if (pendientes.empty()) {
             cout << "No hay envios pendientes.\n";
+            return;
         }
+
+        T* e = pendientes.front();
+        pendientes.pop();
+
+        cout << "Procesando envio " << e->getId() << " hacia " << e->getDestino() << endl;
+        e->actualizarEstado("En tránsito");
     }
 
     void mostrarCola() {
         if (pendientes.empty()) {
-            cout << "No hay envios en la cola.\n";
+            cout << "No hay elementos en la cola.\n";
             return;
         }
 
-        queue<Envio*> copia = pendientes;
-        cout << "=== COLA DE ENVIOS PENDIENTES ===\n";
+        queue<T*> copia = pendientes;
+
+        cout << "\n=== ELEMENTOS EN LA COLA ===\n";
+
+        auto imprimir = [](T* envio) {
+            cout << "Envio " << envio->getId()
+                << " -> Destino: " << envio->getDestino()
+                << " (Estado: " << envio->getEstado() << ")\n";
+            };
+
         while (!copia.empty()) {
-            Envio* e = copia.front();
-            cout << "Envio " << e->getId() << " -> " << e->getDestino()
-                << " (Estado: " << e->getEstado() << ")\n";
+            imprimir(copia.front());
             copia.pop();
         }
+    }
+
+    bool estaVacia() const {
+        return pendientes.empty();
     }
 };

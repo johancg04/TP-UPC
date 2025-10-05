@@ -1,23 +1,24 @@
 #pragma once
 #include "Envio.h"
-//NODO PARA ENVIOS
+
+template <typename T = Envio>
 class Nodo
 {
 private:
-    Envio* envio;
-    Nodo* siguiente;
+    T* envio;
+    Nodo<T>* siguiente;
+
 public:
-    Nodo(Envio* e) {
+    Nodo(T* e) {
         envio = e;
         siguiente = nullptr;
     }
 
     ~Nodo() {}
 
-    Envio* getEnvio() { return envio; }
-    void setEnvio(Envio* e) { envio = e; }
+    T* getEnvio() { return envio; }
+    void setEnvio(T* e) { envio = e; }
 
-    Nodo* getSiguiente() { return siguiente; }
-
-    void setSiguiente(Nodo* nodo) { siguiente = nodo; }
+    Nodo<T>* getSiguiente() { return siguiente; }
+    void setSiguiente(Nodo<T>* nodo) { siguiente = nodo; }
 };

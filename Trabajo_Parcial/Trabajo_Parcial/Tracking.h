@@ -1,11 +1,12 @@
 #pragma once
 #include "Headers.h"
 
+template <typename T>
 class Tracking
 {
 private:
 	int idEnvio;
-	stack<string> ubicaciones;
+	stack<T> ubicaciones;
 public:
 	Tracking(int id) {
 		this->idEnvio = id;
@@ -13,7 +14,7 @@ public:
 
 	~Tracking(){}
 
-	void pushUbicacion(const string& ubicacion) {
+	void pushUbicacion(const T& ubicacion) {
 		ubicaciones.push(ubicacion);
 	}
 
@@ -27,11 +28,12 @@ public:
 		}
 	}
 
-	string verUltimaUbicacion() {
+	T verUltimaUbicacion() {
 		if (!ubicaciones.empty()) {
 			return ubicaciones.top();
 		}
-		return "No hay ubicaciones registradas";
+		cout << "No hay ubicaciones registradas\n";
+		return T();
 	}
 
 	void mostrarHistorial() {
@@ -41,14 +43,14 @@ public:
 		}
 		cout << "Historial de ubicaciones del envio " << idEnvio << ":\n";
 
-		stack<string> copia = ubicaciones;
+		stack<T> copia = ubicaciones;
 
-		auto imprimirPila = [](stack<string> s) {
+		auto imprimirPila = [](stack<T> s) {
 			while (!s.empty()) {
 				cout << "- " << s.top() << endl;
 				s.pop();
 			}
-			};
+		};
 
 		imprimirPila(copia);
 	}

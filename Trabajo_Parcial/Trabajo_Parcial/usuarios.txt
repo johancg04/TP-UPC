@@ -22,3 +22,11 @@ Telefono:654278139
 Password:admin
 Rol:Administrador
 -----------------------
+DNI:12784565
+Nombre:Cliente3
+Correo:cliente3@mail.com
+Direccion:Lima
+Telefono:963258741
+Password:cliente3
+Rol:Cliente
+-----------------------

@@ -4,10 +4,11 @@
 #include "Paquete.h"
 #include "Sobre.h"
 
+template <typename T>
 class ListaEnvios
 {
 private:
-	Nodo* cabeza;
+	Nodo<T>* cabeza;
 
 public:
 	ListaEnvios() {
@@ -15,19 +16,19 @@ public:
 	}
 	~ListaEnvios(){}
 
-	void insertarInicio(Envio* e) {
-		Nodo* nuevo = new Nodo(e);
+	void insertarInicio(T* e) {
+		Nodo<T>* nuevo = new Nodo<T>(e);
 		nuevo->setSiguiente(cabeza);
 		cabeza = nuevo;
 
         guardarEnArchivo(e);
 	}
 
-    void mostrarListaRecursivo(Nodo* temp) {
+    void mostrarListaRecursivo(Nodo<T>* temp) {
         if (temp == nullptr) {
             return;
         }
-        Envio* e = temp->getEnvio();
+        T* e = temp->getEnvio();
         if (e != nullptr) {
             e->mostrar();
         }
@@ -38,11 +39,11 @@ public:
     }
 
     void mostrarLista() {
-        cout << endl << "=== LISTA DE ENVIOS (Recursivo) ===" << endl;
+        cout << endl << "=== LISTA DE ENVIOS ===" << endl;
         mostrarListaRecursivo(cabeza);
     }
 
-    Envio* buscarEnvioPorIdRecursivo(Nodo* nodo, int id) {
+    T* buscarEnvioPorIdRecursivo(Nodo<T>* nodo, int id) {
         if (nodo == nullptr) {
             return nullptr;
         }
@@ -52,17 +53,17 @@ public:
         return buscarEnvioPorIdRecursivo(nodo->getSiguiente(), id);
     }
 
-    Envio* buscarEnvioPorId(int id) {
+    T* buscarEnvioPorId(int id) {
         return buscarEnvioPorIdRecursivo(cabeza, id);
     }
 
-    Nodo* eliminarPorIdRecursivoInterno(Nodo* nodo, int id, bool& eliminado) {
+    Nodo<T>* eliminarPorIdRecursivoInterno(Nodo<T>* nodo, int id, bool& eliminado) {
         if (nodo == nullptr) {
             return nullptr;
         }
 
         if (nodo->getEnvio()->getId() == id) {
-            Nodo* siguiente = nodo->getSiguiente();
+            Nodo<T>* siguiente = nodo->getSiguiente();
             delete nodo->getEnvio();
             delete nodo;
             eliminado = true;
@@ -87,22 +88,27 @@ public:
     }
 
     void mostrarPorDni(const string& dni) {
-        Nodo* temp = cabeza;
+        auto coincideDni = [dni](T* e) {
+            return e && e->getDniCliente() == dni;
+            };
+
+        Nodo<T>* temp = cabeza;
         bool encontrado = false;
         cout << "\n=== ENVIOS DEL DNI: " << dni << " ===\n";
         while (temp) {
-            Envio* e = temp->getEnvio();
-            if (e && e->getDniCliente() == dni) {
+            T* e = temp->getEnvio();
+            if (coincideDni(e)) {
                 e->mostrar();
                 cout << "-----------------------------------\n";
                 encontrado = true;
             }
             temp = temp->getSiguiente();
         }
-        if (!encontrado) cout << "No se encontraron envíos para el DNI " << dni << "\n";
+        if (!encontrado)
+            cout << "No se encontraron envíos para el DNI " << dni << "\n";
     }
 
-    void guardarEnArchivo(Envio* e) {
+    void guardarEnArchivo(T* e) {
         ofstream archivo("envios.txt", ios::app);
         if (!archivo.is_open()) {
             cout << "Error al abrir archivo de envios\n";
@@ -192,7 +198,7 @@ public:
 			}   
 
             else if (linea == "-------------------") {
-                Envio* nuevo = nullptr;
+                T* nuevo = nullptr;
 
                 if (tipo == "Paquete") {
                     nuevo = new Paquete(id, peso, dim, ori, des, est, contenido, valor, aseg, dni);
@@ -216,11 +222,11 @@ public:
             return (e->getOrigen() == valorFiltro || e->getDestino() == valorFiltro);
             };
 
-        Nodo* temp = cabeza;
+        Nodo<T>* temp = cabeza;
         bool encontrado = false;
 
         while (temp) {
-            Envio* e = temp->getEnvio();
+            T* e = temp->getEnvio();
             if (e && cumpleCriterio(e)) {
                 e->mostrar();
                 cout << "-----------------------------------\n";
@@ -234,8 +240,9 @@ public:
     }
 
     private:
-        void insertarInicioSinArchivo(Envio* e) {
-            Nodo* nuevo = new Nodo(e);
+
+        void insertarInicioSinArchivo(T* e) {
+            Nodo<T>* nuevo = new Nodo<T>(e);
             nuevo->setSiguiente(cabeza);
             cabeza = nuevo;
         }
@@ -247,9 +254,9 @@ public:
                 return;
             }
 
-            Nodo* temp = cabeza;
+            Nodo<T>* temp = cabeza;
             while (temp) {
-                Envio* e = temp->getEnvio();
+                T* e = temp->getEnvio();
                 archivo << "ID:" << e->getId() << "\n";
                 archivo << "Tipo:" << e->getTipo() << "\n";
                 archivo << "Peso:" << e->getPeso() << "\n";
