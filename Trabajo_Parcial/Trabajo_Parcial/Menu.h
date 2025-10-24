@@ -5,7 +5,7 @@ void mostrarMenuAcceso() {
 	cout << "=== BIENVENIDO AL SISTEMA DE ENCOMIENDAS ===\n";
 	cout << "1. Registrarse\n";
 	cout << "2. Iniciar Sesion\n";
-	cout << "3. Salir\n";
+	cout << "0. Salir\n";
 	cout << "Opcion: ";
 }
 

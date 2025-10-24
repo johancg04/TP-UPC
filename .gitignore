@@ -426,3 +426,8 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Archivos temporales generados para pruebas
+pagos.txt
+envios.txt
+usuarios.txt
